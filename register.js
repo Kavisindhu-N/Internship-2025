@@ -57,6 +57,8 @@ signupButton.addEventListener('click', e => {
 
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem("role", "user");
+    localStorage.setItem("loggedInUser", JSON.stringify(newUser));
 
 
     document.getElementById("signupName").value = "";
@@ -64,6 +66,6 @@ signupButton.addEventListener('click', e => {
     document.getElementById("signupPassword").value = "";
     document.getElementById("signupConfirmPassword").value = "";
 
-    alert('Registration successful, Please login to continue');
+    alert('Registration successfull');
     window.location.href = 'userDashboard.html';
 });
