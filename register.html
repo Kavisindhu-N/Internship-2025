@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script defer src="register.js"></script>
+</head>
+
+<body class="bg-light">
+    <div class="container d-flex align-items-center justify-content-center min-vh-100">
+
+        <!-- Signup Form -->
+        <div id="signupForm" class="card p-4 shadow-sm" style="width: 100%; max-width: 420px;">
+            <h4 class="text-center text-success fw-bold mb-1">🟢 Create Account</h4>
+            <p class="text-center text-muted mb-4 small">Join us today</p>
+            <form class="d-flex gap-3 flex-column">
+                <input type="text" class="form-control" id="signupName" placeholder="username" required />
+                <input type="email" class="form-control" id="signupEmail" placeholder="Enter your email" required />
+                <input type="password" class="form-control" id="signupPassword" placeholder="Create a password"
+                    required />
+                <input type="password" class="form-control" id="signupConfirmPassword"
+                    placeholder="Confirm your password" required />
+                <button type="submit" class="btn btn-success w-100" id="signupButton">Create Account</button>
+            </form>
+
+            <p class="text-center mt-3 small">Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+
+    </div>
+</body>
+
+</html>
