@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>PumasAI</title>
+</head>
+
+<body>
+    <script>
+
+        // const appendFunction = (child, parent) => {
+        //     parent.append(child);
+        //     return;
+        // }
+
+
+        const appendFunction = (parent, ...child) => {
+            parent.append(...child);
+            return;
+        }
+
+        // Navbar *******************************************************************
+        const navbar = document.createElement('nav');
+        navbar.setAttribute('class', 'navbar bg-body-tertiary d-flex justify-content-around')
+
+        const logoImg = document.createElement('img')
+        logoImg.setAttribute('src', './assets/pumasai.svg')
+        logoImg.setAttribute('style', 'width:100px; height:50px;');
+        navbar.appendChild(logoImg)
+
+        const navLinksContainer = document.createElement('div');
+        navLinksContainer.setAttribute('class', 'd-flex gap-4')
+        const linksContent = ['Company', 'Media', 'Careers', 'Resources', 'Our Products', 'Our Services', 'Our Customers'];
+        linksContent.map(item => {
+            const navLinks = document.createElement('a');
+            navLinks.setAttribute('href', '#');
+            navLinks.setAttribute('class', 'nav-link');
+            navLinks.textContent = item;
+            navLinksContainer.appendChild(navLinks);
+        })
+
+        const navButton = document.createElement('button')
+        navButton.textContent = 'Contact Us'
+        navButton.setAttribute('class', 'btn btn-outline-secondary')
+        navbar.appendChild(navButton)
+        navbar.append(logoImg, navLinksContainer, navButton)
+
+        // eventtSection ********************************************************
+        const eventSection = document.createElement('section')
+        eventSection.setAttribute('class', 'text-bg-primary p-4 d-flex flex-column align-items-center gap-2')
+        const heading = document.createElement('h3');
+        heading.textContent = 'Get Ready for 2025: Explore Our Upcoming Events';
+        appendFunction(eventSection, heading);
+        const button = document.createElement('button');
+        button.textContent = 'BROWSE EVENTS'
+        button.setAttribute('class', 'btn btn-light')
+        appendFunction(eventSection, button)
+
+        //main************************************************************
+        const main = document.createElement('main');
+        main.setAttribute('class', 'd-flex  align-items-center gap-10 p-4')
+        const description = document.createElement('h2');
+        description.textContent = 'PumasAI helps you accelerate access to life-saving treatments to patients';
+        appendFunction(main, description);
+        const mainImage = document.createElement('img');
+        mainImage.setAttribute('src', './assets/banner.png');
+        mainImage.setAttribute('style', 'width:800px; height:600px;');
+        appendFunction(main, mainImage);
+
+        //section**************************************************************
+        const section = document.createElement('section');
+        section.setAttribute('class', 'd-flex flex-column gap-2 align-items-center text-bg-primary p-4')
+        const sectionHeading = document.createElement('h1')
+        sectionHeading.textContent = 'Named Best Clinical Pharmacology Technology Development Firm!';
+        appendFunction(section, sectionHeading);
+        const sectionPara = document.createElement('p')
+        sectionPara.textContent = 'PumasAI has been honored at the Biotechnology Awards for its innovative contributions to the pharmaceutical industry, enhancing life-saving decisions.';
+        appendFunction(section, sectionPara);
+
+        // cards*************************************************
+        const cardsContainer = document.createElement('div');
+        cardsContainer.setAttribute('class', 'p-4 d-flex justify-content-center gap-3')
+        // const cards = [
+        //     {element:document.createElement('div'),style:setAttribute('style',)},
+        //     {element:document.createElement('div'),style:},
+        //     {element:document.createElement('div'),style:}
+        // ];
+        // cards.forEach(card => {
+        //     appendFunction(card, cardsContainer);
+        // });
+
+        const card1 = document.createElement('div');
+        const card1Img = document.createElement('img')
+        card1Img.setAttribute('src', './assets/card1.png');
+        card1Img.setAttribute('style', 'width:25rem; height:20rem;');
+        const card1Para = document.createElement('p');
+        card1Para.textContent = 'Our data analytics tools help make data-driven decisions more efficiently'
+        const card1Button = document.createElement('button');
+        card1Button.textContent = 'Explore our Products';
+        card1Button.setAttribute('class', 'btn btn-outline-secondary');
+        appendFunction(card1, card1Img, card1Para, card1Button);
+
+        const card2 = document.createElement('div');
+        const card2Img = document.createElement('img');
+        card2Img.setAttribute('src', './assets/card2.png');
+        card2Img.setAttribute('style', 'width:20rem; height:20rem;');
+        const card2Para = document.createElement('p');
+        card2Para.textContent = 'Complimentary access to advanced modeling tools for non-commercial research & education'
+        const card2Button = document.createElement('button');
+        card2Button.textContent = 'Explore Academic Access';
+        card2Button.setAttribute('class', 'btn btn-outline-secondary');
+        appendFunction(card2, card2Img, card2Para, card2Button);
+
+        const card3 = document.createElement('div');
+        const card3Img = document.createElement('img');
+        card3Img.setAttribute('src', './assets/card3.png');
+        card3Img.setAttribute('style', 'width:25rem; height:20rem;');
+        const card3Para = document.createElement('p');
+        card3Para.textContent = 'Find the shortest development path for regulatory approval, with us'
+        const card3Button = document.createElement('button');
+        card3Button.textContent = 'Explore our Services';
+        card3Button.setAttribute('class', 'btn btn-outline-secondary');
+        appendFunction(card3, card3Img, card3Para, card3Button);
+        appendFunction(cardsContainer, card1, card2, card3);
+
+        const cards = [card1, card2, card3]
+        cards.forEach(card => {
+            card.setAttribute('class', 'd-flex p-3 flex-column gap-5 bg-primary-subtle text-center');
+            card.setAttribute('style', 'width:25rem;height:35rem');
+        })
+
+        // Section*********************************************************
+        const section2 = document.createElement('section');
+        section2.setAttribute('class', 'd-flex p-5 gap-5 justify-content-center align-items-center')
+        const section2Des = document.createElement('p');
+        section2Des.textContent = 'Our offerings are fine-tuned to the needs of drug development and healthcare delivery';
+        section2Des.setAttribute('class', 'display-6')
+        const section2Img = document.createElement('img');
+        section2Img.setAttribute('src', './assets/img.png');
+        section2Img.setAttribute('style', 'width:50rem;height:20rem');
+        appendFunction(section2, section2Des, section2Img)
+
+        // Section3******************************************************************
+        const section3 = document.createElement('section');
+        section3.setAttribute('class', 'd-flex flex-column p-5 bg-body-secondary justify-content-center align-items-center ');
+
+        const section3Div1 = document.createElement('div');
+        section3Div1.setAttribute('class', 'd-flex  flex-row');
+        section3Div1.style.gap = '10rem';
+
+        const section3Card1 = document.createElement('div');
+        section3Card1.setAttribute('class', 'd-flex justify-content-center align-items-center flex-column')
+        const section3Img1 = document.createElement('img');
+        section3Img1.setAttribute('src', './assets/request-call.svg');
+        const section3h1 = document.createElement('h5');
+        section3h1.textContent = 'Request a Call';
+        section3h1.classList.add('text-center');
+        const section3p1 = document.createElement('p');
+        section3p1.textContent = 'Set up a time to discuss your needs with our Pumas products or Consulting teams';
+        section3p1.classList.add('text-center');
+        appendFunction(section3Card1, section3Img1, section3h1, section3p1);
+
+        const section3Card2 = document.createElement('div');
+        const section3Img2 = document.createElement('img');
+        section3Img2.setAttribute('src', './assets/customised-plan.svg');
+        const section3h2 = document.createElement('h5');
+        section3h2.textContent = 'Receive a Customized Plan';
+        section3h2.classList.add('text-center');
+        const section3p2 = document.createElement('p');
+        section3p2.textContent = 'Partner with us in implementing a winning strategy for you';
+        section3p2.classList.add('text-center');
+        appendFunction(section3Card2, section3Img2, section3h2, section3p2);
+
+        const section3Card3 = document.createElement('div');
+        const section3Img3 = document.createElement('img');
+        section3Img3.setAttribute('src', './assets/bullseye.svg');
+        const section3h3 = document.createElement('h5');
+        section3h3.textContent = 'Successfully Deliver What Patients Need';
+        section3h3.classList.add('text-center');
+        const section3p3 = document.createElement('p');
+        section3p3.textContent = 'Deliver access to life-saving treatments to patients with confidence';
+        section3p3.classList.add('text-center');
+        appendFunction(section3Card3, section3Img3, section3h3, section3p3);
+
+        const line = document.createElement('hr');
+        line.setAttribute('style', 'height: 2px;width: 80%;');
+
+        const section3Div2 = document.createElement('div');
+        section3Div2.setAttribute('class', 'd-flex gap-3')
+        const section3p = document.createElement('h2');
+        section3p.textContent = 'Getting started is simple'
+        const section3Button = document.createElement('button');
+        section3Button.textContent = 'Contact Us'
+        section3Button.setAttribute('class', 'btn btn-outline-secondary')
+
+        appendFunction(section3Div2, section3p, section3Button);
+        appendFunction(section3Div1, section3Card1, section3Card2, section3Card3);
+        appendFunction(section3, section3Div1, line, section3Div2);
+
+        // Footer **********************************************
+        const footer = document.createElement('footer');
+        footer.classList.add('gap-3', 'p-4', 'text-bg-dark')
+
+        const footerH3 = document.createElement('h3');
+        footerH3.textContent = 'PumasAI'
+
+        const footerContainer = document.createElement('div');
+        footerContainer.classList.add('d-flex', 'gap-5', 'p-6', 'align-items-center', 'justify-content-center');
+
+        // Conatiner 1***************************************************
+        const container1 = document.createElement('div');
+        const twitter = document.createElement('i');
+        twitter.setAttribute('class', 'bi bi-twitter');
+        twitter.setAttribute('style', 'font-size:2rem; margin-left:1.5rem');
+        // twitter.classList.add('2rem');
+
+        const youtube = document.createElement('i');
+        youtube.setAttribute('class', 'bi bi-youtube');
+        youtube.setAttribute('style', 'font-size:2rem; margin-left:1.5rem');
+
+        const linkedin = document.createElement('i');
+        linkedin.setAttribute('class', 'bi bi-linkedin');
+        linkedin.setAttribute('style', 'font-size:2rem; margin-left:1.5rem');
+        const container1Content = document.createElement('p');
+
+        container1Content.style.whiteSpace = 'pre';
+        container1Content.textContent =
+            `
+        Pumas-AI Inc.3500 
+        South Dupont Highway 
+        Suite GT - 101 Dover, 
+        DE 19901
+        
+        Email: info@pumas.ai
+        `;
+        appendFunction(container1, container1Content, twitter, youtube, linkedin);
+
+        const hLine = document.createElement('div');
+        hLine.setAttribute('style', 'width:2px; height:200px; background-color:white;margin-left:2rem');
+
+        // Container 2****************************************
+        const container2 = document.createElement('div');
+        container2.classList.add('d-flex', 'flex-column', 'gap-4', 'p-3')
+        const linkItems = ['Our Products', 'Our Team', 'Contact', 'Terms of use']
+        linkItems.map(item => {
+            const link = document.createElement('a');
+            link.setAttribute('href', 'Contact.html');
+            link.classList.add('nav-link')
+            link.textContent = item;
+            appendFunction(container2, link);
+        })
+
+        // containe 3********************************************
+        const container3 = document.createElement('div');
+        container3.classList.add('d-flex', 'flex-column', 'gap-4', 'p-3')
+        const linkItems2 = ['Our Services', 'News', 'events', 'Privacy Policy']
+        linkItems2.map(item => {
+            const link = document.createElement('a');
+            link.setAttribute('href', 'Contact.html');
+            link.classList.add('nav-link')
+            link.textContent = item;
+            appendFunction(container3, link);
+        })
+
+        // container 4**************************************************
+        const container4 = document.createElement('div');
+        container4.classList.add('d-flex', 'flex-column', 'gap-4', 'p-3')
+        const linkItems3 = ['Our Customers', 'Careers', 'Resources', '@PumasAI inc.2025. All rights reserved']
+        linkItems3.map(item => {
+            const link = document.createElement('a');
+            link.setAttribute('href', 'Contact.html');
+            link.classList.add('nav-link')
+            link.textContent = item;
+            appendFunction(container4, link);
+        })
+
+        appendFunction(footer, footerH3, footerContainer);
+        appendFunction(footerContainer, container1, hLine, container2, container3, container4);
+        appendFunction(document.body, navbar, main, section3, footer);
+
+        // for (i = 0; i < 3; i++) {
+        //     for (j = 0; j < 5; j++) {
+        //         const footerList = document.createElement('li');
+        //         footerList.textContent = 
+
+        //     }
+        // }
+
+        appendFunction(document.body, navbar, eventSection, main, section, cardsContainer, section2, section3, footer);
+        // const elementCreator = (dataType, variableName, tag) => dataType variableName = document.createElement(tag)
+        // elementCreator(const,name,'p');
+
+    </script>
+</body>
+
+</html>
