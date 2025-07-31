@@ -1,58 +1,96 @@
-import { useState } from "react";
-import { CssBaseline, Box, IconButton, Drawer, Typography } from "@mui/joy";
-import MenuIcon from "@mui/icons-material/Menu";
+import { useState, useEffect } from "react";
+import { CssBaseline, Drawer } from "@mui/joy";
 import SideBar from "./components/SideBar";
 import TextArea from "./components/TextArea";
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Button from '@mui/joy/Button';
+import AddIcon from '@mui/icons-material/Add';
 
-const HEADER_HEIGHT = 70; // px
+
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
   const [currentInput, setCurrentInput] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isTextAreaVisible, setIsTextAreaVisible] = useState(false);
+  const [noteCreated, setNoteCreated] = useState(false);
 
-  const handleSave = (input) => {
-    if (selectedNoteIndex === null) {
-      if (input.trim() !== "") {
-        setNotes([{ text: input }, ...notes]);
-        setCurrentInput("");
+
+  useEffect(() => {
+    if (!isTextAreaVisible || currentInput.trim() === "") return;
+
+    const timer = setTimeout(() => {
+      if (selectedNoteIndex === null) {
+
+        if (!noteCreated) {
+          setNotes((prev) => [{ text: currentInput }, ...prev]);
+          setNoteCreated(true);
+          setSelectedNoteIndex(0);
+        }
+      } else {
+        setNotes((prev) => {
+          const updated = [...prev];
+          updated[selectedNoteIndex].text = currentInput;
+          return updated;
+        });
       }
-    } else {
-      const updated = [...notes];
-      updated[selectedNoteIndex].text = input;
-      setNotes(updated);
-      setCurrentInput("");
-      setSelectedNoteIndex(null);
-    }
-  };
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [currentInput]);
+
+
+
+
+  // const handleSave = (input) => {
+  //   if (selectedNoteIndex === null) {
+  //     if (input.trim() !== "") {
+  //       setNotes([{ text: input }, ...notes]);
+  //       setCurrentInput("");
+  //     }
+  //   } else {
+  //     const updated = [...notes];
+  //     updated[selectedNoteIndex].text = input;
+  //     setNotes(updated);
+  //     setCurrentInput("");
+  //     setSelectedNoteIndex(null);
+  //   }
+  // };
 
   const handleSelectNote = (index) => {
     setSelectedNoteIndex(index);
-    setCurrentInput(notes[index]?.text || "");
-    // setIsDrawerOpen(false);
+    setCurrentInput(notes[index].text);
+    setNoteCreated(true);
   };
 
-  const handleDeleteNote = (index) => {
-    const newNotes = notes.filter((_, i) => i !== index);
-    setNotes(newNotes);
+  const handleDeleteNote = (indexToDelete) => {
+    setNotes((prevNotes) => {
+      const newNotes = prevNotes.filter((_, i) => i !== indexToDelete);
 
-    if (index === selectedNoteIndex) {
-      setSelectedNoteIndex(null);
-      setCurrentInput("");
-    } 
-    else if (index < selectedNoteIndex) {
-      setSelectedNoteIndex((prev) => prev - 1);
-    }
+      // Handle selected note after deletion
+      setSelectedNoteIndex((prevIndex) => {
+        if (prevIndex === null) return null;
+        if (indexToDelete === prevIndex) {
+          // Deleted the currently selected note
+          setCurrentInput("");
+          return null;
+        } else if (indexToDelete < prevIndex) {
+          // Shift index down by 1
+          return prevIndex - 1;
+        } else {
+          // No change needed
+          return prevIndex;
+        }
+      });
 
-//     Before:
-//   index 0 → Note A
-//   index 1 → Note B
-//   index 2 → Note C ← selected
-
-// After deletion:
-//   index 0 → Note A
-//   index 1 → Note C ← now it’s at index 1
+      return newNotes;
+    });
   };
 
   const openDrawer = () => setIsDrawerOpen(true);
@@ -61,112 +99,78 @@ const App = () => {
   return (
     <>
       <CssBaseline />
+      <Box sx={{ display: "flex", flexDirection: 'column' }}>
 
-      {/* Header */}
-      <Box
-        sx={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: `${HEADER_HEIGHT}px`,
-          px: 2,
-          display: "flex",
-          alignItems: "center",
-          boxShadow: "sm",
-          bgcolor: "background.surface",
-          zIndex: 1300,
-        }}
-      >
-        <IconButton
-          onClick={openDrawer}
-          sx={{ display: { xs: "inline-flex", sm: "none" }, mr: 1 }}
-          aria-label="open sidebar"
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography
-          level="h1"
-          sx={{
-            flex: 1,
-            textAlign: "center",
-            fontWeight: "bold",
-            fontSize: "1.5rem",
-          }}
-        >
-          Inkdrop
-        </Typography>
-      </Box>
 
-      {/* Main Content */}
-      <Box
-        sx={{
-          display: "flex",
-          height: `calc(100vh - ${HEADER_HEIGHT}px)`,
-          mt: `${HEADER_HEIGHT}px`,
-          width: "100vw",
-          overflow: "hidden",
-        }}
-      >
-        {/* Mobile Drawer */}
-        <Drawer
-          open={isDrawerOpen}
-          onClose={closeDrawer}
-          anchor="left"
-          variant="temporary"
-          // ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              top: `${HEADER_HEIGHT}px`,
-              height: `calc(100vh - ${HEADER_HEIGHT}px)`,
-              width: 260,
-            },
-          }}
-        >
-          <SideBar
-            notes={notes}
-            onSelectNote={handleSelectNote}
-            onDeleteNote={handleDeleteNote}
-            selectedNoteIndex={selectedNoteIndex}
-          />
-        </Drawer>
+        {/* Header */}
+        <AppBar position="static">
+          <Toolbar >
+            <IconButton onClick={openDrawer}
+              sx={{ display: { xs: "inline-flex", sm: "none" }, mr: 2 }}
+              edge="start"
+              color="inherit"
+              aria-label="menu" >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" component="div">
+              Notes App
+            </Typography>
+          </Toolbar>
+        </AppBar>
 
-        {/* Desktop Sidebar */}
-        <Box
-          sx={{
-            display: { xs: "none", sm: "block" },
-            width: 260,
-            borderRight: "1px solid #eee",
-            height: `calc(100vh - ${HEADER_HEIGHT}px)`,
-          }}
-        >
-          <SideBar
-            notes={notes}
-            onSelectNote={handleSelectNote}
-            onDeleteNote={handleDeleteNote}
-            selectedNoteIndex={selectedNoteIndex}
-          />
+
+        {/* Main */}
+        <Box sx={{ display: "flex" }}>
+
+          {/* Mobile Drawer */}
+          <Drawer
+            open={isDrawerOpen}
+            onClose={closeDrawer}
+            anchor="left"
+            variant="temporary"
+          >
+            <SideBar
+              notes={notes}
+              onSelectNote={handleSelectNote}
+              onDeleteNote={handleDeleteNote}
+              selectedNoteIndex={selectedNoteIndex}
+            />
+          </Drawer>
+
+          {/* Desktop Sidebar */}
+          <Box width={300} p={2}
+            sx={{ display: { xs: 'none', sm: 'inline-flex' } }}>
+            <SideBar
+              notes={notes}
+              onSelectNote={handleSelectNote}
+              onDeleteNote={handleDeleteNote}
+              selectedNoteIndex={selectedNoteIndex}
+            />
+          </Box>
+
+          <Box p={3} width={1}
+            sx={{ display: "flex", flexDirection: 'column' }}>
+            <Button variant="soft" onClick={() => {
+              setIsTextAreaVisible(true);
+              setSelectedNoteIndex(null);
+              setCurrentInput("");
+              setNoteCreated(false);
+            }}
+
+              sx={{ ml: "auto", mb: '10px' }}
+            >
+              <AddIcon />
+            </Button>
+
+            {isTextAreaVisible && (
+              <TextArea
+                input={currentInput}
+                onChange={setCurrentInput}
+              />
+            )}
+          </Box>
         </Box>
 
-        {/* TextArea */}
-        <Box
-          sx={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            p: 2,
-            overflow: "auto",
-            height: `calc(100vh - ${HEADER_HEIGHT}px)`,
-          }}
-        >
-          <TextArea
-            input={currentInput}
-            onChange={setCurrentInput}
-            onBlur={() => handleSave(currentInput)}
-          />
-        </Box>
       </Box>
     </>
   );
